@@ -93,7 +93,7 @@ body {
     outline: none;
     flex: 1;
     font-size: 14px;
-    color: #ffffff;
+    color: grey;
 }
 
 .input-field input::placeholder {
