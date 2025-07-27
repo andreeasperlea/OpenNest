@@ -24,10 +24,11 @@ const LoginSignup: React.FC = () => {
 
     try {
       const res = await fetch(url, {
-        method: isSignUp ? 'POST' : 'POST',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials:'include',
         body: JSON.stringify(body),
       });
 
@@ -37,11 +38,10 @@ const LoginSignup: React.FC = () => {
       console.log('Success:', data);
       alert(`Success: ${isSignUp ? 'Signed up' : 'Signed in'}`);
       if(!isSignUp) {
-        localStorage.setItem('token', data.access_token);
-        navigate('/dashboard');
+        navigate('/dashboard')
       }
     } catch (err: any) {
-      console.error('❌ Error:', err.message);
+      console.error('Error:', err.message);
       alert(`Error: ${err.message}`);
     }
   };

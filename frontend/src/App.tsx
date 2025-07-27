@@ -1,16 +1,25 @@
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import { useEffect } from 'react';
+import { useAuthStore } from './authStore';
 import LoginSignup from "./Components/LoginSignup/LoginSignup";
-import Dashboard from './Components/Dashboard';
+import Dashboard from "./Components/Dashboard";
+import {Route, BrowserRouter, Routes} from "react-router-dom";
 
-function App(){
-    return(
-        <Router>
-            <Routes>
-                <Route path='/' element={<LoginSignup/>}></Route>
-                <Route path='/' element={<Dashboard/>}></Route>
-            </Routes>
-        </Router>
-    );
+function App() {
+  const { fetchUser } = useAuthStore();
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  return (
+   <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LoginSignup />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
+

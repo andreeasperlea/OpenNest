@@ -1,10 +1,10 @@
 import React from 'react';
+import Navbar from "./Navbar";
 
 const Dashboard: React.FC = () => {
   return (
     <div>
-      <h1>🎉 Welcome to your dashboard!</h1>
-      <p>Here are your things...</p>
+      <Navbar/>
     </div>
   );
 };
