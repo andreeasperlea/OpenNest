@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import user_routes
+from app.routes import user_routes, repository_routes
+
 app = FastAPI()
 origins = [
     "http://localhost:3000",
@@ -14,5 +15,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ✅ Register your router
 app.include_router(user_routes.router)
+app.include_router(repository_routes.repo_router)

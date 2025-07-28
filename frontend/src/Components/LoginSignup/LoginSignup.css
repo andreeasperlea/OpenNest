@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom, #E0ECDE, #FFFFFF); /* background from palette */
+    background: linear-gradient(to bottom, #E0ECDE, #FFFFFF);
 }
 
 .container {
@@ -12,7 +12,7 @@ body {
     margin: 5% auto;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 0 30px rgba(44, 105, 117, 0.15); /* subtle shadow using #2C6975 */
+    box-shadow: 0 0 30px rgba(44, 105, 117, 0.15);
     transition: transform 0.6s ease-in-out;
     background-color: #ffffff;
 }

@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -8,8 +9,10 @@ class RepositoryBase(BaseModel):
     description: str
     is_private: bool = False
 
-class RepositoryCReate(BaseModel):
-    pass
+class RepositoryCreate(BaseModel):
+    name:str
+    description:Optional[str]=""
+    is_private:bool
 
 class RepositoryOut(RepositoryBase):
     id: int
