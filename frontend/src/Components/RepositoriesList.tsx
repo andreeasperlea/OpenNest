@@ -1,16 +1,25 @@
-import React, {useEffect, useState} from 'react'
-import {useAuthStore} from "../stores/authStore";
-import './RepositoriesList.css'
+import React, { useEffect, useState } from 'react';
+import { useAuthStore } from "../stores/authStore";
+import './RepositoriesList.css';
+import { RepositoryModal } from './RepositoryModal';
 
 export const RepositoriesList = () => {
-    const {repositories, fetchRepositories}= useAuthStore();
+  const { repositories, fetchRepositories } = useAuthStore();
+  const [showModal, setShowModal] = useState(false);
 
-    useEffect(() => {
-        fetchRepositories();
-    }, [fetchRepositories]);
-    return (
+  useEffect(() => {
+    fetchRepositories();
+  }, []);
+
+  return (
     <div className="dashboard">
-      <h2 className="dashboard-title">Your Repositories</h2>
+      <div className="dashboard-header">
+          <h2 className="dashboard-title">Your Repositories</h2>
+          <button className="create-repo-btn" onClick={() => setShowModal(true)}>
+            + New Repository
+          </button>
+      </div>
+
       <div className="repo-grid">
         {repositories.map((repo) => (
           <div key={repo.id} className="repo-card">
@@ -23,6 +32,13 @@ export const RepositoriesList = () => {
           </div>
         ))}
       </div>
+
+      {showModal && (
+        <RepositoryModal
+          onClose={() => setShowModal(false)}
+          onCreated={() => fetchRepositories()}
+        />
+      )}
     </div>
   );
-}
+};

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Body
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.repositories import Repository
@@ -14,7 +14,7 @@ def get_my_repositories(current_user: User = Depends(get_current_user_from_cooki
     return repos
 
 @repo_router.post("/create-repository")
-def create_repository(repo_data=RepositoryCreate , db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_cookies) ):
+def create_repository(repo_data: RepositoryCreate = Body(...), db: Session = Depends(get_db), current_user: User = Depends(get_current_user_from_cookies) ):
     new_repo = Repository(
         owner_id=current_user.id,
         name=repo_data.name,
