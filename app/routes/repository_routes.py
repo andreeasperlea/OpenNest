@@ -26,3 +26,10 @@ def create_repository(repo_data: RepositoryCreate = Body(...), db: Session = Dep
     db.refresh(new_repo)
 
     return new_repo
+
+@repo_router.get("/repositories/{repository_id}")
+def get_repository(repository_id: int,current_user:User=Depends(get_current_user_from_cookies), db: Session = Depends(get_db)):
+    repo=db.query(Repository).filter(Repository.id==repository_id, Repository.owner_id == current_user.id).first();
+    if not repo:
+        return{"error":"repository not found"}
+    return repo
