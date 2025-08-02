@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, ForeignKey, Text, TIMESTAMP, func, Check
 
 from app.database import Base
 
-class Comments(Base):
+class Comment(Base):
     __tablename__ = 'comments'
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'), ondelete='CASCADE')
