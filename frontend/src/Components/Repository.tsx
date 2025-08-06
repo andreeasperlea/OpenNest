@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import './Repository.css';
+import './IssueModal';
+import {RepositoryModal} from "./RepositoryModal";
+import IssueModal from "./IssueModal";
 interface Commit {
   id: number;
   message: string;
@@ -39,15 +42,14 @@ export const Repository = () => {
   const { id } = useParams();
   const [repoData, setRepoData] = useState<RepositoryData | null>(null);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-  console.log("Fetching repository ID:", id);
+  const [showIssueModal, setShowIssueModal]=useState(false);
+  const navigate=useNavigate();
+  const fetchRepository = () => {
   fetch(`http://localhost:8000/repositories/${id}`, {
     credentials: 'include',
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log("Received repository data:", data);
       if (data.detail) {
         setError(data.detail);
       } else {
@@ -58,6 +60,10 @@ export const Repository = () => {
       console.error("Error fetching repository:", err);
       setError("Failed to fetch repository");
     });
+};
+
+useEffect(() => {
+  fetchRepository();
 }, [id]);
 
   if (error) return <p>{error}</p>;
@@ -83,7 +89,11 @@ export const Repository = () => {
           <li key={i.id}>{i.title}</li>
         ))}
       </ul>
-
+        <div className='issue-actions'>
+        <button className="create-issue-btn" onClick={() => setShowIssueModal(true)}>
+            + New Issue
+          </button>
+        </div>
       <h3>Pull Requests</h3>
       <ul>
         {repoData.pull_requests.length === 0 && <li>No pull requests found</li>}
@@ -91,6 +101,16 @@ export const Repository = () => {
           <li key={pr.id}>{pr.title}</li>
         ))}
       </ul>
+        {showIssueModal && (
+        <IssueModal
+          repositoryId={repoData.id}
+          onClose={() => setShowIssueModal(false)}
+          onCreated={() => {
+            setShowIssueModal(false);
+            fetchRepository(); // Refresh data
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -1,0 +1,91 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(44, 105, 117, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: #ffffff;
+  padding: 30px 32px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 0 30px rgba(44, 105, 117, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.modal h3 {
+  margin: 0;
+  color: #2C6975;
+  font-size: 20px;
+  text-align: center;
+}
+
+.modal input,
+.modal textarea {
+  padding: 12px;
+  border: 1px solid #E0ECDE;
+  border-radius: 10px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  font-family: inherit;
+}
+
+.modal textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.modal input:focus,
+.modal textarea:focus {
+  outline: none;
+  border-color: #6BB2A0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.modal-actions button {
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease;
+  font-family: inherit;
+}
+
+.modal-actions button:not(.cancel) {
+  background: linear-gradient(to right, #6BB2A0, #2C6975);
+  color: white;
+}
+
+.modal-actions button:not(.cancel):hover {
+  background: linear-gradient(to right, #2C6975, #6BB2A0);
+}
+
+.modal-actions button.cancel {
+  background-color: #e0e0e0;
+  color: #2C6975;
+}
+
+.modal .error {
+  color: #d9534f;
+  font-size: 14px;
+  text-align: center;
+}

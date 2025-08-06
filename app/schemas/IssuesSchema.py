@@ -8,8 +8,7 @@ class IssueBase(BaseModel):
     description: str
 
 class IssueCreate(IssueBase):
-    repository_id: int
-    owner_id: int
+    pass;
 
 class IssuePut(IssueBase):
     id: int
@@ -17,6 +16,6 @@ class IssuePut(IssueBase):
     owner_id: int
     created_at: datetime
     is_open: bool
+
     class Config:
         orm_mode = True
-
