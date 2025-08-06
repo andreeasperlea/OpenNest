@@ -17,6 +17,6 @@ class Repository(Base):
     is_private = Column(Boolean, nullable=False, default=False)
     created_at = Column(TIMESTAMP, server_default=func.now())
 
-    commits = relationship(Commit, back_populates='repository')
-    issues = relationship(Issue, back_populates='repository')
-    pull_requests = relationship(PullRequest, back_populates='repository')
+    commits = relationship('Commit', back_populates='repository', cascade='all, delete')
+    issues = relationship('Issue', back_populates='repository')
+    pull_requests = relationship('PullRequest', back_populates='repository')

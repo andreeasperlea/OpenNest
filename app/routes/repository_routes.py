@@ -60,6 +60,8 @@ def get_repository(repo_id: int, current_user: User = Depends(get_current_user_f
                 "message": c.message,
                 "commit_hash": c.commit_hash,
                 "committed_at": c.committed_at,
+                "path":c.path,
+                "content":c.content,
             } for c in repo.commits
         ],
         "issues": [

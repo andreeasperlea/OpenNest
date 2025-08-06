@@ -4,6 +4,7 @@ import './Repository.css';
 import './IssueModal';
 import {RepositoryModal} from "./RepositoryModal";
 import IssueModal from "./IssueModal";
+import CommitModal from "./CommitModal";
 interface Commit {
   id: number;
   message: string;
@@ -44,6 +45,7 @@ export const Repository = () => {
   const [error, setError] = useState("");
   const [showIssueModal, setShowIssueModal]=useState(false);
   const navigate=useNavigate();
+  const [showCommitModal, setShowCommitModal]=useState(false);
   const fetchRepository = () => {
   fetch(`http://localhost:8000/repositories/${id}`, {
     credentials: 'include',
@@ -81,7 +83,11 @@ useEffect(() => {
           <li key={c.id}>{c.message}</li>
         ))}
       </ul>
-
+        <div className="commit-actions">
+            <button className='create-commit-btn' onClick={()=>setShowCommitModal(true)}>
+                + New Commit
+            </button>
+        </div>
       <h3>Issues</h3>
       <ul>
         {repoData.issues.length === 0 && <li>No issues found</li>}
@@ -111,6 +117,15 @@ useEffect(() => {
           }}
         />
       )}
+        {showCommitModal && (
+            <CommitModal repositoryId={repoData.id}
+                         onClose={() => setShowCommitModal(false)}
+                         onCommitted={()=>{
+                             setShowCommitModal(false);
+                             fetchRepository();
+                         }}
+            />
+        )}
     </div>
   );
 };
