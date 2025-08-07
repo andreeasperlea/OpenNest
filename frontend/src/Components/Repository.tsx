@@ -5,6 +5,7 @@ import './IssueModal';
 import {RepositoryModal} from "./RepositoryModal";
 import IssueModal from "./IssueModal";
 import CommitModal from "./CommitModal";
+import {Link} from 'react-router-dom';
 interface Commit {
   id: number;
   message: string;
@@ -80,7 +81,11 @@ useEffect(() => {
       <ul>
         {repoData.commits.length === 0 && <li>No commits found</li>}
         {repoData.commits.map((c) => (
-          <li key={c.id}>{c.message}</li>
+          <li key={c.id}>
+           <Link to={`/commits/${c.id}`} className="commit-link">
+          {c.message}
+            </Link>
+          </li>
         ))}
       </ul>
         <div className="commit-actions">
@@ -89,10 +94,15 @@ useEffect(() => {
             </button>
         </div>
       <h3>Issues</h3>
-      <ul>
+      <ul className="issue-list">
         {repoData.issues.length === 0 && <li>No issues found</li>}
         {repoData.issues.map((i) => (
-          <li key={i.id}>{i.title}</li>
+          <li key={i.id} className={`issue-item ${i.is_open ? 'open' : 'closed'}`}>
+            <Link to={`/issues/${i.id}`} className="issue-link">
+                {i.title}
+                <span className="issue-status">{i.is_open ? 'Open' : 'Closed'}</span>
+            </Link>
+          </li>
         ))}
       </ul>
         <div className='issue-actions'>

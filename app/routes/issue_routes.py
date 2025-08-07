@@ -31,3 +31,35 @@ async def create_issue(repo_id: int, issue: IssueCreate = Body(...), db: Session
     db.commit()
     db.refresh(new_issue)
     return new_issue
+
+@issue_router.get("/issues/{issue_id}")
+async def get_issue(issue_id: int, db: Session = Depends(get_db), current_user: User=Depends(get_current_user_from_cookies)):
+    issue=db.query(Issue).join(Repository).filter(Issue.id == issue_id, Repository.owner_id==current_user.id).first()
+    if not issue:
+        raise HTTPException(status_code=404, detail="Issue not found")
+    return{
+        "id": issue.id,
+        "title": issue.title,
+        "description": issue.description,
+        "is_open": issue.is_open,
+        "created_at": issue.created_at,
+    }
+
+
+@issue_router.put("/issues/{issue_id}/toggle-status")
+def toggle_issue_status(issue_id:int, db:Session=Depends(get_db), current_user: User=Depends(get_current_user_from_cookies) ):
+    issue=db.query(Issue).join(Repository).filter(
+        Issue.id==issue_id,
+        Repository.owner_id==current_user.id).first()
+    if not issue:
+        raise HTTPException (status_code=404, detail="Issue not found")
+    issue.is_open=not issue.is_open
+    db.commit()
+    db.refresh(issue)
+    return{
+        "id":issue.id,
+        "title":issue.title,
+        "description":issue.description,
+        "is_open": issue.is_open,
+        "created_at": issue.created_at,
+    }

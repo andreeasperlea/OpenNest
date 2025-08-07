@@ -3,6 +3,7 @@ from http.client import HTTPException
 
 from fastapi import APIRouter, Form, UploadFile, File, Depends
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.functions import current_user
 
 from app.database import get_db
 from app.models.commits import Commit
@@ -53,3 +54,18 @@ def create_commit(
     db.refresh(new_commit)
 
     return {"message":"Commit created", "commit_id":new_commit.id}
+@commit_router.get("/commits/{commit_id}")
+async def get_commit(commit_id:int, current_user: User= Depends(get_current_user_from_cookies), db:Session=Depends(get_db)):
+    commit=db.query(Commit).join(Repository).filter(
+        Commit.id==commit_id,
+        Repository.owner_id == current_user.id).first()
+    if not commit:
+        raise HTTPException(status_code=404, detail="Commit not found")
+    return{
+        "id":commit.id,
+        "message":commit.message,
+        "path":commit.path,
+        "content":commit.content,
+        "committed_at": commit.committed_at.isoformat(),
+        "author_name": commit.author.username
+    }
